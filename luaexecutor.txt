@@ -1,0 +1,657 @@
+-- Lua Executor con barra lateral
+-- Creado por Claude
+
+local ExecutorGUI = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Sidebar = Instance.new("Frame")
+local UIListLayout = Instance.new("UIListLayout")
+local Title = Instance.new("TextLabel")
+local ExecutorButton = Instance.new("TextButton")
+local InternalGUIsButton = Instance.new("TextButton")
+local ContentFrame = Instance.new("Frame")
+local ExecutorFrame = Instance.new("Frame")
+local ScriptBox = Instance.new("TextBox")
+local ExecuteButton = Instance.new("TextButton")
+local ClearButton = Instance.new("TextButton")
+local ScriptsFrame = Instance.new("Frame")
+local ScriptsTitle = Instance.new("TextLabel")
+local ScriptsList = Instance.new("ScrollingFrame")
+local ScriptsLayout = Instance.new("UIListLayout")
+local InternalGUIsFrame = Instance.new("Frame")
+local InternalGUIsTitle = Instance.new("TextLabel")
+local InternalGUIsList = Instance.new("ScrollingFrame")
+local InternalGUIsLayout = Instance.new("UIListLayout")
+
+-- Configuración principal
+ExecutorGUI.Name = "ExecutorGUI"
+ExecutorGUI.Parent = game:GetService("CoreGui")
+
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ExecutorGUI
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainFrame.Size = UDim2.new(0, 800, 0, 500)
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+-- Barra lateral
+Sidebar.Name = "Sidebar"
+Sidebar.Parent = MainFrame
+Sidebar.Size = UDim2.new(0, 150, 1, 0)
+Sidebar.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Sidebar.BorderSizePixel = 0
+
+UIListLayout.Parent = Sidebar
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 5)
+
+Title.Name = "Title"
+Title.Parent = Sidebar
+Title.Size = UDim2.new(1, 0, 0, 50)
+Title.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Title.BorderSizePixel = 0
+Title.Text = "Lua Executor"
+Title.Font = Enum.Font.SourceSansBold
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 20.0
+
+ExecutorButton.Name = "ExecutorButton"
+ExecutorButton.Parent = Sidebar
+ExecutorButton.Size = UDim2.new(1, 0, 0, 40)
+ExecutorButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+ExecutorButton.BorderSizePixel = 0
+ExecutorButton.Text = "Executor"
+ExecutorButton.Font = Enum.Font.SourceSans
+ExecutorButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ExecutorButton.TextSize = 18.0
+
+InternalGUIsButton.Name = "InternalGUIsButton"
+InternalGUIsButton.Parent = Sidebar
+InternalGUIsButton.Size = UDim2.new(1, 0, 0, 40)
+InternalGUIsButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+InternalGUIsButton.BorderSizePixel = 0
+InternalGUIsButton.Text = "Internal GUIs"
+InternalGUIsButton.Font = Enum.Font.SourceSans
+InternalGUIsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+InternalGUIsButton.TextSize = 18.0
+
+-- Área de contenido
+ContentFrame.Name = "ContentFrame"
+ContentFrame.Parent = MainFrame
+ContentFrame.Position = UDim2.new(0, 150, 0, 0)
+ContentFrame.Size = UDim2.new(1, -150, 1, 0)
+ContentFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+ContentFrame.BorderSizePixel = 0
+
+-- Sección del Ejecutor
+ExecutorFrame.Name = "ExecutorFrame"
+ExecutorFrame.Parent = ContentFrame
+ExecutorFrame.Size = UDim2.new(1, 0, 1, 0)
+ExecutorFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+ExecutorFrame.BorderSizePixel = 0
+ExecutorFrame.Visible = true
+
+ScriptBox.Name = "ScriptBox"
+ScriptBox.Parent = ExecutorFrame
+ScriptBox.Position = UDim2.new(0, 10, 0, 10)
+ScriptBox.Size = UDim2.new(1, -20, 0.7, -20)
+ScriptBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+ScriptBox.BorderSizePixel = 0
+ScriptBox.ClearTextOnFocus = false
+ScriptBox.MultiLine = true
+ScriptBox.Text = "-- Escribe tu script aquí"
+ScriptBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+ScriptBox.TextSize = 14.0
+ScriptBox.TextXAlignment = Enum.TextXAlignment.Left
+ScriptBox.TextYAlignment = Enum.TextYAlignment.Top
+
+ExecuteButton.Name = "ExecuteButton"
+ExecuteButton.Parent = ExecutorFrame
+ExecuteButton.Position = UDim2.new(0, 10, 0.7, 0)
+ExecuteButton.Size = UDim2.new(0.5, -15, 0, 40)
+ExecuteButton.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+ExecuteButton.BorderSizePixel = 0
+ExecuteButton.Text = "Ejecutar"
+ExecuteButton.Font = Enum.Font.SourceSansBold
+ExecuteButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ExecuteButton.TextSize = 18.0
+
+ClearButton.Name = "ClearButton"
+ClearButton.Parent = ExecutorFrame
+ClearButton.Position = UDim2.new(0.5, 5, 0.7, 0)
+ClearButton.Size = UDim2.new(0.5, -15, 0, 40)
+ClearButton.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+ClearButton.BorderSizePixel = 0
+ClearButton.Text = "Limpiar"
+ClearButton.Font = Enum.Font.SourceSansBold
+ClearButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ClearButton.TextSize = 18.0
+
+ScriptsFrame.Name = "ScriptsFrame"
+ScriptsFrame.Parent = ExecutorFrame
+ScriptsFrame.Position = UDim2.new(0, 10, 0.7, 50)
+ScriptsFrame.Size = UDim2.new(1, -20, 0.3, -60)
+ScriptsFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+ScriptsFrame.BorderSizePixel = 0
+
+ScriptsTitle.Name = "ScriptsTitle"
+ScriptsTitle.Parent = ScriptsFrame
+ScriptsTitle.Size = UDim2.new(1, 0, 0, 30)
+ScriptsTitle.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+ScriptsTitle.BorderSizePixel = 0
+ScriptsTitle.Text = "Scripts Guardados"
+ScriptsTitle.Font = Enum.Font.SourceSansBold
+ScriptsTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+ScriptsTitle.TextSize = 16.0
+
+ScriptsList.Name = "ScriptsList"
+ScriptsList.Parent = ScriptsFrame
+ScriptsList.Position = UDim2.new(0, 0, 0, 30)
+ScriptsList.Size = UDim2.new(1, 0, 1, -30)
+ScriptsList.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+ScriptsList.BorderSizePixel = 0
+ScriptsList.ScrollBarThickness = 6
+ScriptsList.VerticalScrollBarPosition = Enum.VerticalScrollBarPosition.Right
+ScriptsList.CanvasSize = UDim2.new(0, 0, 0, 0)
+
+ScriptsLayout.Parent = ScriptsList
+ScriptsLayout.SortOrder = Enum.SortOrder.LayoutOrder
+ScriptsLayout.Padding = UDim.new(0, 5)
+
+-- Sección de GUIs Internas
+InternalGUIsFrame.Name = "InternalGUIsFrame"
+InternalGUIsFrame.Parent = ContentFrame
+InternalGUIsFrame.Size = UDim2.new(1, 0, 1, 0)
+InternalGUIsFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+InternalGUIsFrame.BorderSizePixel = 0
+InternalGUIsFrame.Visible = false
+
+InternalGUIsTitle.Name = "InternalGUIsTitle"
+InternalGUIsTitle.Parent = InternalGUIsFrame
+InternalGUIsTitle.Size = UDim2.new(1, 0, 0, 40)
+InternalGUIsTitle.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+InternalGUIsTitle.BorderSizePixel = 0
+InternalGUIsTitle.Text = "Internal GUIs"
+InternalGUIsTitle.Font = Enum.Font.SourceSansBold
+InternalGUIsTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+InternalGUIsTitle.TextSize = 18.0
+
+InternalGUIsList.Name = "InternalGUIsList"
+InternalGUIsList.Parent = InternalGUIsFrame
+InternalGUIsList.Position = UDim2.new(0, 10, 0, 50)
+InternalGUIsList.Size = UDim2.new(1, -20, 1, -60)
+InternalGUIsList.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+InternalGUIsList.BorderSizePixel = 0
+InternalGUIsList.ScrollBarThickness = 6
+InternalGUIsList.VerticalScrollBarPosition = Enum.VerticalScrollBarPosition.Right
+InternalGUIsList.CanvasSize = UDim2.new(0, 0, 0, 0)
+
+InternalGUIsLayout.Parent = InternalGUIsList
+InternalGUIsLayout.SortOrder = Enum.SortOrder.LayoutOrder
+InternalGUIsLayout.Padding = UDim.new(0, 5)
+
+-- Función para crear un botón de script
+local function CreateScriptButton(parent, name, script)
+    local ScriptButton = Instance.new("TextButton")
+    ScriptButton.Name = name .. "Button"
+    ScriptButton.Parent = parent
+    ScriptButton.Size = UDim2.new(1, -10, 0, 30)
+    ScriptButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    ScriptButton.BorderSizePixel = 0
+    ScriptButton.Text = name
+    ScriptButton.Font = Enum.Font.SourceSans
+    ScriptButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ScriptButton.TextSize = 16.0
+    
+    ScriptButton.MouseButton1Click:Connect(function()
+        ScriptBox.Text = script
+    end)
+    
+    return ScriptButton
+end
+
+-- Agregar scripts predeterminados (los que subiste)
+local infiniteYieldScript = CreateScriptButton(ScriptsList, "Infinite Yield", [[loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()]])
+local tsknScript = CreateScriptButton(ScriptsList, "TSKN", [[loadstring(game:HttpGet('https://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/tskn.txt'))()]])
+local blummyScript = CreateScriptButton(ScriptsList, "Blummy", [[loadstring(game:HttpGet('https://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/nytrfe.n0.txt'))()]])
+local c00lguiScript = CreateScriptButton(ScriptsList, "C00lGUI v3", [[loadstring(game:HttpGet("https://raw.githubusercontent.com/MiRw3b/c00lgui-v3rx/main/c00lguiv3rx.lua"))()]])
+
+-- Actualizar el tamaño del canvas
+ScriptsList.CanvasSize = UDim2.new(0, 0, 0, ScriptsLayout.AbsoluteContentSize.Y)
+
+-- Crear GUIs internas
+local function CreateGUIButton(name, callback)
+    local GUIButton = Instance.new("TextButton")
+    GUIButton.Name = name .. "Button"
+    GUIButton.Parent = InternalGUIsList
+    GUIButton.Size = UDim2.new(1, -10, 0, 40)
+    GUIButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    GUIButton.BorderSizePixel = 0
+    GUIButton.Text = name
+    GUIButton.Font = Enum.Font.SourceSans
+    GUIButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    GUIButton.TextSize = 16.0
+    
+    GUIButton.MouseButton1Click:Connect(callback)
+    
+    return GUIButton
+end
+
+-- Agregar GUIs internas
+local function CreateSimpleESP()
+    local ESPEnabled = false
+    local ESPFunction = function()
+        ESPEnabled = not ESPEnabled
+        if ESPEnabled then
+            -- Código ESP básico
+            for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+                if player ~= game:GetService("Players").LocalPlayer then
+                    local highlight = Instance.new("Highlight")
+                    highlight.Name = "ESP_Highlight"
+                    highlight.FillColor = Color3.fromRGB(255, 0, 0)
+                    highlight.OutlineColor = Color3.fromRGB(255, 255, 0)
+                    highlight.FillTransparency = 0.5
+                    highlight.OutlineTransparency = 0
+                    
+                    if player.Character then
+                        highlight.Parent = player.Character
+                    end
+                    
+                    player.CharacterAdded:Connect(function(char)
+                        if ESPEnabled then
+                            highlight.Parent = char
+                        end
+                    end)
+                end
+            end
+        else
+            -- Quitar ESP
+            for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+                if player.Character then
+                    local highlight = player.Character:FindFirstChild("ESP_Highlight")
+                    if highlight then
+                        highlight:Destroy()
+                    end
+                end
+            end
+        end
+    end
+    
+    return ESPFunction
+end
+
+local function CreateSpeedHack()
+    local SpeedEnabled = false
+    local DefaultSpeed = 16
+    local BoostSpeed = 50
+    
+    local SpeedFunction = function()
+        SpeedEnabled = not SpeedEnabled
+        
+        if SpeedEnabled then
+            game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = BoostSpeed
+        else
+            game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = DefaultSpeed
+        end
+    end
+    
+    return SpeedFunction
+end
+
+local espButton = CreateGUIButton("ESP (Jugadores)", CreateSimpleESP())
+local speedButton = CreateGUIButton("Speed Hack", CreateSpeedHack())
+local jumpButton = CreateGUIButton("Salto Infinito", function()
+    local InfiniteJumpEnabled = true
+    game:GetService("UserInputService").JumpRequest:connect(function()
+        if InfiniteJumpEnabled then
+            game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass('Humanoid'):ChangeState("Jumping")
+        end
+    end)
+end)
+
+-- Actualizar el tamaño del canvas
+InternalGUIsList.CanvasSize = UDim2.new(0, 0, 0, InternalGUIsLayout.AbsoluteContentSize.Y)
+
+-- Lógica para los botones de navegación
+ExecutorButton.MouseButton1Click:Connect(function()
+    ExecutorFrame.Visible = true
+    InternalGUIsFrame.Visible = false
+    MusicFrame.Visible = false
+    
+    ExecutorButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    InternalGUIsButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    MusicButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+end)
+
+InternalGUIsButton.MouseButton1Click:Connect(function()
+    ExecutorFrame.Visible = false
+    InternalGUIsFrame.Visible = true
+    MusicFrame.Visible = false
+    
+    ExecutorButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    InternalGUIsButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    MusicButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+end)
+
+MusicButton.MouseButton1Click:Connect(function()
+    ExecutorFrame.Visible = false
+    InternalGUIsFrame.Visible = false
+    MusicFrame.Visible = true
+    
+    ExecutorButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    InternalGUIsButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    MusicButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+end)
+
+-- Funcionalidad de los botones
+ExecuteButton.MouseButton1Click:Connect(function()
+    local success, errorMsg = pcall(function()
+        loadstring(ScriptBox.Text)()
+    end)
+    
+    if not success then
+        warn("Error al ejecutar script: " .. errorMsg)
+    end
+end)
+
+ClearButton.MouseButton1Click:Connect(function()
+    ScriptBox.Text = ""
+end)
+
+-- Añadir reproductor de música
+local MusicButton = Instance.new("TextButton")
+MusicButton.Name = "MusicButton"
+MusicButton.Parent = Sidebar
+MusicButton.Size = UDim2.new(1, 0, 0, 40)
+MusicButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+MusicButton.BorderSizePixel = 0
+MusicButton.Text = "Music Player"
+MusicButton.Font = Enum.Font.SourceSans
+MusicButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MusicButton.TextSize = 18.0
+
+local MusicFrame = Instance.new("Frame")
+MusicFrame.Name = "MusicFrame"
+MusicFrame.Parent = ContentFrame
+MusicFrame.Size = UDim2.new(1, 0, 1, 0)
+MusicFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MusicFrame.BorderSizePixel = 0
+MusicFrame.Visible = false
+
+local MusicTitle = Instance.new("TextLabel")
+MusicTitle.Name = "MusicTitle"
+MusicTitle.Parent = MusicFrame
+MusicTitle.Size = UDim2.new(1, 0, 0, 40)
+MusicTitle.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+MusicTitle.BorderSizePixel = 0
+MusicTitle.Text = "Music Player"
+MusicTitle.Font = Enum.Font.SourceSansBold
+MusicTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+MusicTitle.TextSize = 18.0
+
+local MusicID = Instance.new("TextBox")
+MusicID.Name = "MusicID"
+MusicID.Parent = MusicFrame
+MusicID.Position = UDim2.new(0, 10, 0, 50)
+MusicID.Size = UDim2.new(1, -20, 0, 40)
+MusicID.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+MusicID.BorderSizePixel = 0
+MusicID.PlaceholderText = "Introduce el ID de la canción (Roblox Asset ID)"
+MusicID.Text = "6942391979" -- Default: Roblox Lo-Fi
+MusicID.Font = Enum.Font.SourceSans
+MusicID.TextColor3 = Color3.fromRGB(255, 255, 255)
+MusicID.TextSize = 16.0
+
+local PlayButton = Instance.new("TextButton")
+PlayButton.Name = "PlayButton"
+PlayButton.Parent = MusicFrame
+PlayButton.Position = UDim2.new(0, 10, 0, 100)
+PlayButton.Size = UDim2.new(0.3, -15, 0, 40)
+PlayButton.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+PlayButton.BorderSizePixel = 0
+PlayButton.Text = "Play"
+PlayButton.Font = Enum.Font.SourceSansBold
+PlayButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+PlayButton.TextSize = 18.0
+
+local StopButton = Instance.new("TextButton")
+StopButton.Name = "StopButton"
+StopButton.Parent = MusicFrame
+StopButton.Position = UDim2.new(0.35, 0, 0, 100)
+StopButton.Size = UDim2.new(0.3, -15, 0, 40)
+StopButton.BackgroundColor3 = Color3.fromRGB(120, 0, 0)
+StopButton.BorderSizePixel = 0
+StopButton.Text = "Stop"
+StopButton.Font = Enum.Font.SourceSansBold
+StopButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+StopButton.TextSize = 18.0
+
+local VolumeSlider = Instance.new("Frame")
+VolumeSlider.Name = "VolumeSlider"
+VolumeSlider.Parent = MusicFrame
+VolumeSlider.Position = UDim2.new(0.7, 0, 0, 100)
+VolumeSlider.Size = UDim2.new(0.3, -10, 0, 40)
+VolumeSlider.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+VolumeSlider.BorderSizePixel = 0
+
+local VolumeIndicator = Instance.new("Frame")
+VolumeIndicator.Name = "VolumeIndicator"
+VolumeIndicator.Parent = VolumeSlider
+VolumeIndicator.Size = UDim2.new(0.5, 0, 1, 0)
+VolumeIndicator.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+VolumeIndicator.BorderSizePixel = 0
+
+local VolumeText = Instance.new("TextLabel")
+VolumeText.Name = "VolumeText"
+VolumeText.Parent = VolumeSlider
+VolumeText.Size = UDim2.new(1, 0, 1, 0)
+VolumeText.BackgroundTransparency = 1
+VolumeText.Text = "Volumen: 50%"
+VolumeText.Font = Enum.Font.SourceSans
+VolumeText.TextColor3 = Color3.fromRGB(255, 255, 255)
+VolumeText.TextSize = 16.0
+
+local PlaylistFrame = Instance.new("Frame")
+PlaylistFrame.Name = "PlaylistFrame"
+PlaylistFrame.Parent = MusicFrame
+PlaylistFrame.Position = UDim2.new(0, 10, 0, 150)
+PlaylistFrame.Size = UDim2.new(1, -20, 1, -160)
+PlaylistFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+PlaylistFrame.BorderSizePixel = 0
+
+local PlaylistTitle = Instance.new("TextLabel")
+PlaylistTitle.Name = "PlaylistTitle"
+PlaylistTitle.Parent = PlaylistFrame
+PlaylistTitle.Size = UDim2.new(1, 0, 0, 30)
+PlaylistTitle.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+PlaylistTitle.BorderSizePixel = 0
+PlaylistTitle.Text = "Canciones Populares"
+PlaylistTitle.Font = Enum.Font.SourceSansBold
+PlaylistTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+PlaylistTitle.TextSize = 16.0
+
+local PlaylistList = Instance.new("ScrollingFrame")
+PlaylistList.Name = "PlaylistList"
+PlaylistList.Parent = PlaylistFrame
+PlaylistList.Position = UDim2.new(0, 0, 0, 30)
+PlaylistList.Size = UDim2.new(1, 0, 1, -30)
+PlaylistList.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+PlaylistList.BorderSizePixel = 0
+PlaylistList.ScrollBarThickness = 6
+PlaylistList.VerticalScrollBarPosition = Enum.VerticalScrollBarPosition.Right
+PlaylistList.CanvasSize = UDim2.new(0, 0, 0, 0)
+
+local PlaylistLayout = Instance.new("UIListLayout")
+PlaylistLayout.Parent = PlaylistList
+PlaylistLayout.SortOrder = Enum.SortOrder.LayoutOrder
+PlaylistLayout.Padding = UDim.new(0, 5)
+
+-- Sistema de música
+local Sound = Instance.new("Sound")
+Sound.Parent = ExecutorGUI
+Sound.Volume = 0.5
+Sound.Looped = true
+
+-- Función para crear un botón de canción
+local function CreateSongButton(name, id)
+    local SongButton = Instance.new("TextButton")
+    SongButton.Name = "Song_" .. id
+    SongButton.Parent = PlaylistList
+    SongButton.Size = UDim2.new(1, -10, 0, 30)
+    SongButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    SongButton.BorderSizePixel = 0
+    SongButton.Text = name
+    SongButton.Font = Enum.Font.SourceSans
+    SongButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SongButton.TextSize = 16.0
+    
+    SongButton.MouseButton1Click:Connect(function()
+        MusicID.Text = id
+        Sound.SoundId = "rbxassetid://" .. id
+        Sound:Play()
+    end)
+    
+    return SongButton
+end
+
+-- Añadir canciones populares
+CreateSongButton("Roblox Lo-Fi", "6942391979")
+CreateSongButton("Undertale - Megalovania", "4906548662")
+CreateSongButton("Minecraft - Sweden", "9042722372")
+CreateSongButton("Alan Walker - Faded", "4913103731")
+CreateSongButton("TheFatRat - Unity", "410830597")
+CreateSongButton("Persona 5 - Last Surprise", "1415375564")
+CreateSongButton("Marshmello - Alone", "716333241")
+CreateSongButton("Five Nights at Freddy's", "214902446")
+CreateSongButton("Roblox Horror", "1848370714")
+CreateSongButton("Terraria - Day Theme", "145364288")
+
+-- Actualizar el tamaño del canvas
+PlaylistList.CanvasSize = UDim2.new(0, 0, 0, PlaylistLayout.AbsoluteContentSize.Y)
+
+-- Lógica de botones de música
+PlayButton.MouseButton1Click:Connect(function()
+    local id = MusicID.Text
+    Sound.SoundId = "rbxassetid://" .. id
+    Sound:Play()
+end)
+
+StopButton.MouseButton1Click:Connect(function()
+    Sound:Stop()
+end)
+
+-- Función para controlar el volumen
+local function updateVolume(input)
+    local sizeX = math.clamp((input.Position.X - VolumeSlider.AbsolutePosition.X) / VolumeSlider.AbsoluteSize.X, 0, 1)
+    VolumeIndicator:TweenSize(UDim2.new(sizeX, 0, 1, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, 0.1, true)
+    
+    local volume = sizeX
+    Sound.Volume = volume
+    VolumeText.Text = "Volumen: " .. math.floor(volume * 100) .. "%"
+end
+
+VolumeSlider.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        updateVolume(input)
+        
+        local connection
+        connection = game:GetService("UserInputService").InputChanged:Connect(function(changedInput)
+            if changedInput.UserInputType == Enum.UserInputType.MouseMovement then
+                updateVolume(changedInput)
+            end
+        end)
+        
+        game:GetService("UserInputService").InputEnded:Connect(function(endedInput)
+            if endedInput.UserInputType == Enum.UserInputType.MouseButton1 then
+                if connection then
+                    connection:Disconnect()
+                end
+            end
+        end)
+    end
+end)
+
+-- Función para arrastrar la ventana
+local UserInputService = game:GetService("UserInputService")
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function update(input)
+    local delta = input.Position - dragStart
+    MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+MainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = MainFrame.Position
+        
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+MainFrame.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        update(input)
+    end
+end)
+
+-- Cerrar GUI con tecla de escape
+local function onKeyPress(actionName, inputState)
+    if actionName == "ToggleGUI" and inputState == Enum.UserInputState.Begin then
+        ExecutorGUI.Enabled = not ExecutorGUI.Enabled
+    end
+end
+
+local closeAction = game:GetService("ContextActionService")
+closeAction:BindAction("ToggleGUI", onKeyPress, false, Enum.KeyCode.RightControl)
+
+-- Mostrar notificación de inicio
+local function CreateNotification(text, duration)
+    local NotificationFrame = Instance.new("Frame")
+    NotificationFrame.Name = "Notification"
+    NotificationFrame.Parent = ExecutorGUI
+    NotificationFrame.AnchorPoint = Vector2.new(0.5, 0)
+    NotificationFrame.Position = UDim2.new(0.5, 0, 0, -40)
+    NotificationFrame.Size = UDim2.new(0, 300, 0, 40)
+    NotificationFrame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    NotificationFrame.BorderSizePixel = 0
+    
+    local NotificationText = Instance.new("TextLabel")
+    NotificationText.Name = "NotificationText"
+    NotificationText.Parent = NotificationFrame
+    NotificationText.Size = UDim2.new(1, 0, 1, 0)
+    NotificationText.BackgroundTransparency = 1
+    NotificationText.Text = text
+    NotificationText.Font = Enum.Font.SourceSans
+    NotificationText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    NotificationText.TextSize = 16.0
+    
+    -- Animación
+    NotificationFrame:TweenPosition(UDim2.new(0.5, 0, 0, 20), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.5, true)
+    
+    wait(duration)
+    
+    NotificationFrame:TweenPosition(UDim2.new(0.5, 0, 0, -40), Enum.EasingDirection.In, Enum.EasingStyle.Quart, 0.5, true, function()
+        NotificationFrame:Destroy()
+    end)
+end
+
+CreateNotification("Ejecutor de Lua cargado correctamente. Presiona RightControl para alternar.", 5)
+
+return ExecutorGUI
