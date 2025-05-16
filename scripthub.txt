@@ -1,0 +1,207 @@
+-- Script Selector Menu
+-- Creado por Claude
+
+-- Scripts disponibles
+local scripts = {
+    ["Infinite Yield FE"] = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+    end,
+    
+    ["NYTRFEGUI"] = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/nytrfe.n0.txt'))()
+    end,
+    
+    ["C00lgui V3x"] = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/MiRw3b/c00lgui-v3rx/main/c00lguiv3rx.lua"))()
+    end,
+    
+    ["Fling All"] = function()
+        loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Fling-All-Script-20486"))()
+    end,
+    
+    ["Super Rings Part"] = function()
+        loadstring(game:HttpGet("https://pastefy.app/FbR8qGDl/raw"))()
+    end,
+    
+    ["c00lguifan"] = function()
+        require(14125553864):Fire("nytrfe_n0","c00lkidd")
+    end,
+    
+    ["Pastebin Script"] = function()
+        loadstring(game:HttpGet(('https://pastebin.com/raw/9wJepMwY'),true))()
+    end,
+    
+    ["VISUAL"] = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/visualall.txt'))()
+    end,
+
+    ["KILL ALL V2 skid"] = function()
+
+loadstring(game:HttpGet("https://pastebin.com/raw/qCx0A5JN"))()
+    end,
+
+    ["ANTI-EXPLOIT FOR HACKERS"] = function()
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/Anti-Exploit.txt'))()
+    end
+}
+
+-- Crear interfaz gráfica
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local UIListLayout = Instance.new("UIListLayout")
+local CloseButton = Instance.new("TextButton")
+local MinimizeButton = Instance.new("TextButton")
+local MinimizedButton = Instance.new("ImageButton")
+
+-- Propiedades de la interfaz
+ScreenGui.Name = "ScriptSelector"
+ScreenGui.Parent = game.CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MainFrame.BorderColor3 = Color3.fromRGB(60, 60, 60)
+MainFrame.BorderSizePixel = 2
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -125)
+MainFrame.Size = UDim2.new(0, 300, 0, 250)
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+Title.Name = "Title"
+Title.Parent = MainFrame
+Title.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.Font = Enum.Font.SourceSansBold
+Title.Text = "Selector de Scripts"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 18.000
+
+ScrollingFrame.Name = "ScrollingFrame"
+ScrollingFrame.Parent = MainFrame
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+ScrollingFrame.BorderSizePixel = 0
+ScrollingFrame.Position = UDim2.new(0, 10, 0, 40)
+ScrollingFrame.Size = UDim2.new(1, -20, 1, -50)
+ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+ScrollingFrame.ScrollBarThickness = 6
+
+UIListLayout.Parent = ScrollingFrame
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 5)
+
+CloseButton.Name = "CloseButton"
+CloseButton.Parent = MainFrame
+CloseButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+CloseButton.Position = UDim2.new(1, -25, 0, 5)
+CloseButton.Size = UDim2.new(0, 20, 0, 20)
+CloseButton.Font = Enum.Font.SourceSansBold
+CloseButton.Text = "X"
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.TextSize = 14.000
+
+-- Botón de minimizar
+MinimizeButton.Name = "MinimizeButton"
+MinimizeButton.Parent = MainFrame
+MinimizeButton.BackgroundColor3 = Color3.fromRGB(50, 120, 200)
+MinimizeButton.Position = UDim2.new(1, -50, 0, 5)
+MinimizeButton.Size = UDim2.new(0, 20, 0, 20)
+MinimizeButton.Font = Enum.Font.SourceSansBold
+MinimizeButton.Text = "-"
+MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinimizeButton.TextSize = 18.000
+
+-- Botón minimizado (el que aparece cuando está minimizado)
+MinimizedButton.Name = "MinimizedButton"
+MinimizedButton.Parent = ScreenGui
+MinimizedButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+MinimizedButton.BorderColor3 = Color3.fromRGB(60, 60, 200)
+MinimizedButton.BorderSizePixel = 2
+MinimizedButton.Position = UDim2.new(0.05, 0, 0.5, 0)
+MinimizedButton.Size = UDim2.new(0, 40, 0, 40)
+MinimizedButton.Image = "rbxassetid://3926307971"
+MinimizedButton.ImageRectOffset = Vector2.new(404, 844)
+MinimizedButton.ImageRectSize = Vector2.new(36, 36)
+MinimizedButton.ImageColor3 = Color3.fromRGB(70, 160, 255)
+MinimizedButton.Visible = false
+MinimizedButton.Active = true
+MinimizedButton.Draggable = true
+
+-- Función para cerrar el GUI
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Función para minimizar
+MinimizeButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+    MinimizedButton.Visible = true
+end)
+
+-- Función para maximizar
+MinimizedButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = true
+    MinimizedButton.Visible = false
+end)
+
+-- Añadir scripts al scrolling frame
+local buttonNumber = 0
+for scriptName, scriptFunction in pairs(scripts) do
+    local ScriptButton = Instance.new("TextButton")
+    ScriptButton.Name = scriptName
+    ScriptButton.Parent = ScrollingFrame
+    ScriptButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    ScriptButton.BorderColor3 = Color3.fromRGB(70, 70, 70)
+    ScriptButton.Size = UDim2.new(1, -10, 0, 40)
+    ScriptButton.Font = Enum.Font.SourceSans
+    ScriptButton.Text = scriptName
+    ScriptButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ScriptButton.TextSize = 16.000
+    
+    -- Ejecutar el script cuando se hace clic en el botón
+    ScriptButton.MouseButton1Click:Connect(function()
+        scriptFunction()
+        -- Notificación de ejecución
+        local notification = Instance.new("TextLabel")
+        notification.Name = "Notification"
+        notification.Parent = MainFrame
+        notification.BackgroundColor3 = Color3.fromRGB(40, 180, 40)
+        notification.BorderSizePixel = 0
+        notification.Position = UDim2.new(0, 0, 1, 0)
+        notification.Size = UDim2.new(1, 0, 0, 30)
+        notification.Font = Enum.Font.SourceSansBold
+        notification.Text = "¡" .. scriptName .. " ejecutado!"
+        notification.TextColor3 = Color3.fromRGB(255, 255, 255)
+        notification.TextSize = 16.000
+        
+        -- Animación de notificación
+        game:GetService("TweenService"):Create(
+            notification,
+            TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+            {Position = UDim2.new(0, 0, 1, -30)}
+        ):Play()
+        
+        -- Eliminar la notificación después de 2 segundos
+        delay(2, function()
+            game:GetService("TweenService"):Create(
+                notification,
+                TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In),
+                {Position = UDim2.new(0, 0, 1, 0)}
+            ):Play()
+            wait(0.5)
+            notification:Destroy()
+        end)
+    end)
+    
+    buttonNumber = buttonNumber + 1
+end
+
+-- Ajustar tamaño del ScrollingFrame basado en el número de botones
+ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, buttonNumber * 45)
+
+-- Mensaje de inicio
+print("Selector de Scripts cargado correctamente. ¡Disfruta!")
