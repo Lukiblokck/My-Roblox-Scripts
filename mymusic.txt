@@ -1,0 +1,57 @@
+-- Music c00lkidd_1
+-- Script para reproducir música en Roblox usando el ID: 94595171589513
+
+local musicId = 94595171589513
+
+-- Función para crear y reproducir el sonido
+local function playMusic()
+    -- Crear el objeto de sonido
+    local sound = Instance.new("Sound")
+    sound.Name = "c00lkidd_1"
+    sound.SoundId = "rbxassetid://" .. musicId
+    sound.Volume = 1
+    sound.Looped = true
+    
+    -- Establecer el sonido como hijo de Workspace
+    sound.Parent = workspace
+    
+    -- Reproducir el sonido
+    sound:Play()
+    
+    print("Reproduciendo música con ID: " .. musicId)
+    
+    return sound
+end
+
+-- Función para detener la música
+local function stopMusic(sound)
+    if sound then
+        sound:Stop()
+        sound:Destroy()
+        print("Música detenida")
+    end
+end
+
+-- Variable para almacenar la referencia al sonido
+local musicSound = nil
+
+-- Función principal
+local function main()
+    print("Script Music c00lkidd_1 iniciado")
+    
+    -- Detener cualquier reproducción previa
+    if musicSound then
+        stopMusic(musicSound)
+    end
+    
+    -- Reproducir la nueva música
+    musicSound = playMusic()
+    
+    -- Puedes agregar más lógica aquí según tus necesidades
+end
+
+-- Ejecutar la función principal
+main()
+
+-- Para uso futuro, puedes detener la música llamando a:
+-- stopMusic(musicSound)
