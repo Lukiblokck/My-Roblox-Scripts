@@ -43,6 +43,11 @@ loadstring(game:HttpGet("https://pastebin.com/raw/qCx0A5JN"))()
     ["ANTI-EXPLOIT FOR HACKERS"] = function()
 
 loadstring(game:HttpGet('https://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/Anti-Exploit.txt'))()
+    end,
+
+    ["c00lkidd_1 song"] = functon()
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/mymusic.txt'))()
     end
 }
 
