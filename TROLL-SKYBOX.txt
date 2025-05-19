@@ -1,0 +1,98 @@
+-- Script del lado del servidor para cambiar el skybox
+-- Este script debe colocarse en ServerScriptService
+
+-- Declaración de variables con ámbito local adecuado para el servidor
+local imageOne = "http://www.roblox.com/asset/?id=105850733390960"
+local imageTwo = "http://www.roblox.com/asset/?id=105850733390960"
+local imageThree = "http://www.roblox.com/asset/?id=105850733390960"
+local imageFour = "http://www.roblox.com/asset/?id=105850733390960"
+local imageFive = "http://www.roblox.com/asset/?id=105850733390960"
+local imageSix = "http://www.roblox.com/asset/?id=105850733390960"
+local imageSeven = "http://www.roblox.com/asset/?id=105850733390960"
+local imageEight = "http://www.roblox.com/asset/?id=105850733390960"
+
+-- Asegurar que la Sky no exista ya
+if game.Lighting:FindFirstChild("SkyAnimation") then
+    game.Lighting.SkyAnimation:Destroy()
+end
+
+-- Crear el Sky en Lighting con un nombre específico para poder referenciarlo
+local Sky = Instance.new("Sky")
+Sky.Name = "SkyAnimation"
+Sky.Parent = game.Lighting
+Sky.SkyboxBk = imageOne
+Sky.SkyboxDn = imageOne
+Sky.SkyboxFt = imageOne
+Sky.SkyboxLf = imageOne
+Sky.SkyboxRt = imageOne
+Sky.SkyboxUp = imageOne
+
+print("Script de SkyAnimation ejecutado en el servidor")
+
+-- Manejo de errores para evitar que el script se rompa
+local success, error = pcall(function()
+    -- Bucle principal para actualizar el skybox para todos los jugadores
+    while true do
+        Sky.SkyboxBk = imageOne
+        Sky.SkyboxDn = imageOne
+        Sky.SkyboxFt = imageOne
+        Sky.SkyboxLf = imageOne
+        Sky.SkyboxRt = imageOne
+        Sky.SkyboxUp = imageOne
+        wait(0.15)
+        Sky.SkyboxBk = imageTwo
+        Sky.SkyboxDn = imageTwo
+        Sky.SkyboxFt = imageTwo
+        Sky.SkyboxLf = imageTwo
+        Sky.SkyboxRt = imageTwo
+        Sky.SkyboxUp = imageTwo
+        wait(0.15)
+        Sky.SkyboxBk = imageThree
+        Sky.SkyboxDn = imageThree
+        Sky.SkyboxFt = imageThree
+        Sky.SkyboxLf = imageThree
+        Sky.SkyboxRt = imageThree
+        Sky.SkyboxUp = imageThree
+        wait(0.15)
+        Sky.SkyboxBk = imageFour
+        Sky.SkyboxDn = imageFour
+        Sky.SkyboxFt = imageFour
+        Sky.SkyboxLf = imageFour
+        Sky.SkyboxRt = imageFour
+        Sky.SkyboxUp = imageFour
+        wait(0.15)
+        Sky.SkyboxBk = imageFive
+        Sky.SkyboxDn = imageFive
+        Sky.SkyboxFt = imageFive
+        Sky.SkyboxLf = imageFive
+        Sky.SkyboxRt = imageFive
+        Sky.SkyboxUp = imageFive
+        wait(0.15)
+        Sky.SkyboxBk = imageSix
+        Sky.SkyboxDn = imageSix
+        Sky.SkyboxFt = imageSix
+        Sky.SkyboxLf = imageSix
+        Sky.SkyboxRt = imageSix
+        Sky.SkyboxUp = imageSix
+        wait(0.15)
+        Sky.SkyboxBk = imageSeven
+        Sky.SkyboxDn = imageSeven
+        Sky.SkyboxFt = imageSeven
+        Sky.SkyboxLf = imageSeven
+        Sky.SkyboxRt = imageSeven
+        Sky.SkyboxUp = imageSeven
+        wait(0.15)
+        Sky.SkyboxBk = imageEight
+        Sky.SkyboxDn = imageEight
+        Sky.SkyboxFt = imageEight
+        Sky.SkyboxLf = imageEight
+        Sky.SkyboxRt = imageEight
+        Sky.SkyboxUp = imageEight
+        wait(0.15)
+    end
+end)
+
+-- Imprimir error si ocurre alguno
+if not success then
+    warn("Error en el script SkyAnimation: " .. error)
+end
