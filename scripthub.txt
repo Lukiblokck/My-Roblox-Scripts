@@ -1,5 +1,5 @@
 -- Script Selector Menu
--- Creado por Claude
+-- Creado por Luki
 
 -- Scripts disponibles
 local scripts = {
@@ -24,7 +24,7 @@ local scripts = {
     end,
     
     ["c00lguifan"] = function()
-        require(14125553864):Fire("nytrfe_n0","c00lkidd")
+        require(14125553864):Fire("nytrfe_n0official","c00lkidd")
     end,
     
     ["Pastebin Script"] = function()
@@ -48,10 +48,35 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/Lukiblokck/My-Roblox-
     ["c00lkidd_1 song"] = function()
 
 loadstring(game:HttpGet('https://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/mymusic.txt'))()
+    end,
+
+    ["TROLL SKYBOX XDDDD"] = function()
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/TROLL-SKYBOX.txt'))()
+    end,
+
+    ["XK5NG"] = function()
+
+loadstring(game:HttpGet("https://pastebin.com/raw/jew1GJN1"))()
+    end,
+
+    ["CSHub (Mini Hub)"] = function()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/CSHub-minihub.txt"))()
+    end,
+
+    ["DRESS TO IMPRESS TROLL"] = function()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/DTI-GUI-V2/main/dti_gui_v2.lua",true))()
+    end,
+
+    ["c00lguiTuber93"] = function()
+
+require(6032524768).Eagle('nytrfe_n0offcial')
     end
 }
 
--- Crear interfaz gráfica
+-- interfaz grafica
 local ScreenGui = Instance.new("ScreenGui")
 local MainFrame = Instance.new("Frame")
 local Title = Instance.new("TextLabel")
@@ -61,7 +86,7 @@ local CloseButton = Instance.new("TextButton")
 local MinimizeButton = Instance.new("TextButton")
 local MinimizedButton = Instance.new("ImageButton")
 
--- Propiedades de la interfaz
+-- prop. interfaz
 ScreenGui.Name = "ScriptSelector"
 ScreenGui.Parent = game.CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -120,7 +145,7 @@ MinimizeButton.Text = "-"
 MinimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 MinimizeButton.TextSize = 18.000
 
--- Botón minimizado (el que aparece cuando está minimizado)
+-- cuando ya ta minimizao
 MinimizedButton.Name = "MinimizedButton"
 MinimizedButton.Parent = ScreenGui
 MinimizedButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
