@@ -1,0 +1,438 @@
+-- CSHub - Ultimate Roblox Script Hub
+-- Created by Claude (2025)
+
+-- Main UI Library Setup
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local TopBar = Instance.new("Frame")
+local UICorner_2 = Instance.new("UICorner")
+local Title = Instance.new("TextLabel")
+local CloseButton = Instance.new("TextButton")
+local UICorner_3 = Instance.new("UICorner")
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local UIListLayout = Instance.new("UIListLayout")
+local UIPadding = Instance.new("UIPadding")
+local CreditLabel = Instance.new("TextLabel")
+
+-- Parent the ScreenGui appropriately
+if game:GetService("RunService"):IsStudio() then
+    ScreenGui.Parent = game:GetService("Players").LocalPlayer.PlayerGui
+else
+    ScreenGui.Parent = game:GetService("CoreGui")
+end
+
+ScreenGui.Name = "CSHub"
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+MainFrame.Position = UDim2.new(0.5, -200, 0.5, -250)
+MainFrame.Size = UDim2.new(0, 400, 0, 500)
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+UICorner.Parent = MainFrame
+UICorner.CornerRadius = UDim.new(0, 8)
+
+TopBar.Name = "TopBar"
+TopBar.Parent = MainFrame
+TopBar.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+TopBar.Size = UDim2.new(1, 0, 0, 40)
+
+UICorner_2.Parent = TopBar
+UICorner_2.CornerRadius = UDim.new(0, 8)
+
+Title.Name = "Title"
+Title.Parent = TopBar
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 12, 0, 0)
+Title.Size = UDim2.new(0, 200, 1, 0)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "CSHub v1.0"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 18.000
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+CloseButton.Name = "CloseButton"
+CloseButton.Parent = TopBar
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 70, 70)
+CloseButton.Position = UDim2.new(1, -30, 0.5, -10)
+CloseButton.Size = UDim2.new(0, 20, 0, 20)
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.Text = "X"
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.TextSize = 14.000
+
+UICorner_3.Parent = CloseButton
+UICorner_3.CornerRadius = UDim.new(0, 4)
+
+ScrollingFrame.Name = "ScrollingFrame"
+ScrollingFrame.Parent = MainFrame
+ScrollingFrame.BackgroundTransparency = 1
+ScrollingFrame.Position = UDim2.new(0, 0, 0, 45)
+ScrollingFrame.Size = UDim2.new(1, 0, 1, -70)
+ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+ScrollingFrame.ScrollBarThickness = 4
+ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+
+UIListLayout.Parent = ScrollingFrame
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 5)
+
+UIPadding.Parent = ScrollingFrame
+UIPadding.PaddingLeft = UDim.new(0, 10)
+UIPadding.PaddingRight = UDim.new(0, 10)
+UIPadding.PaddingTop = UDim.new(0, 5)
+UIPadding.PaddingBottom = UDim.new(0, 5)
+
+CreditLabel.Name = "CreditLabel"
+CreditLabel.Parent = MainFrame
+CreditLabel.BackgroundTransparency = 1
+CreditLabel.Position = UDim2.new(0, 0, 1, -25)
+CreditLabel.Size = UDim2.new(1, 0, 0, 20)
+CreditLabel.Font = Enum.Font.Gotham
+CreditLabel.Text = "Created with ❤️ by CS | Press RightControl to toggle"
+CreditLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+CreditLabel.TextSize = 12.000
+
+-- Function to create a category
+local function CreateCategory(name)
+    local CategoryFrame = Instance.new("Frame")
+    local UICorner = Instance.new("UICorner")
+    local CategoryTitle = Instance.new("TextLabel")
+    local ButtonsFrame = Instance.new("Frame")
+    local UIListLayout = Instance.new("UIListLayout")
+    
+    CategoryFrame.Name = name.."Category"
+    CategoryFrame.Parent = ScrollingFrame
+    CategoryFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+    CategoryFrame.Size = UDim2.new(1, 0, 0, 30)
+    CategoryFrame.AutomaticSize = Enum.AutomaticSize.Y
+    
+    UICorner.Parent = CategoryFrame
+    UICorner.CornerRadius = UDim.new(0, 6)
+    
+    CategoryTitle.Name = "CategoryTitle"
+    CategoryTitle.Parent = CategoryFrame
+    CategoryTitle.BackgroundTransparency = 1
+    CategoryTitle.Position = UDim2.new(0, 10, 0, 0)
+    CategoryTitle.Size = UDim2.new(1, -20, 0, 30)
+    CategoryTitle.Font = Enum.Font.GothamBold
+    CategoryTitle.Text = name
+    CategoryTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CategoryTitle.TextSize = 16.000
+    CategoryTitle.TextXAlignment = Enum.TextXAlignment.Left
+    
+    ButtonsFrame.Name = "ButtonsFrame"
+    ButtonsFrame.Parent = CategoryFrame
+    ButtonsFrame.BackgroundTransparency = 1
+    ButtonsFrame.Position = UDim2.new(0, 0, 0, 30)
+    ButtonsFrame.Size = UDim2.new(1, 0, 0, 0)
+    ButtonsFrame.AutomaticSize = Enum.AutomaticSize.Y
+    
+    UIListLayout.Parent = ButtonsFrame
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.Padding = UDim.new(0, 5)
+    
+    return ButtonsFrame
+end
+
+-- Function to create a script button
+local function CreateScriptButton(parent, name, scriptCode, description)
+    local Button = Instance.new("Frame")
+    local UICorner = Instance.new("UICorner")
+    local Title = Instance.new("TextLabel")
+    local Description = Instance.new("TextLabel")
+    local ExecuteButton = Instance.new("TextButton")
+    local UICorner_2 = Instance.new("UICorner")
+    
+    Button.Name = name.."Button"
+    Button.Parent = parent
+    Button.BackgroundColor3 = Color3.fromRGB(50, 50, 55)
+    Button.Size = UDim2.new(1, 0, 0, 70)
+    
+    UICorner.Parent = Button
+    UICorner.CornerRadius = UDim.new(0, 6)
+    
+    Title.Name = "Title"
+    Title.Parent = Button
+    Title.BackgroundTransparency = 1
+    Title.Position = UDim2.new(0, 10, 0, 5)
+    Title.Size = UDim2.new(1, -100, 0, 20)
+    Title.Font = Enum.Font.GothamBold
+    Title.Text = name
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 14.000
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+    
+    if description then
+        Description.Name = "Description"
+        Description.Parent = Button
+        Description.BackgroundTransparency = 1
+        Description.Position = UDim2.new(0, 10, 0, 25)
+        Description.Size = UDim2.new(1, -100, 0, 40)
+        Description.Font = Enum.Font.Gotham
+        Description.Text = description
+        Description.TextColor3 = Color3.fromRGB(200, 200, 200)
+        Description.TextSize = 12.000
+        Description.TextWrapped = true
+        Description.TextXAlignment = Enum.TextXAlignment.Left
+    end
+    
+    ExecuteButton.Name = "ExecuteButton"
+    ExecuteButton.Parent = Button
+    ExecuteButton.BackgroundColor3 = Color3.fromRGB(70, 120, 255)
+    ExecuteButton.Position = UDim2.new(1, -90, 0.5, -15)
+    ExecuteButton.Size = UDim2.new(0, 80, 0, 30)
+    ExecuteButton.Font = Enum.Font.GothamBold
+    ExecuteButton.Text = "Execute"
+    ExecuteButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ExecuteButton.TextSize = 14.000
+    
+    UICorner_2.Parent = ExecuteButton
+    UICorner_2.CornerRadius = UDim.new(0, 4)
+    
+    ExecuteButton.MouseButton1Click:Connect(function()
+        -- Add a visual feedback
+        local originalColor = ExecuteButton.BackgroundColor3
+        ExecuteButton.BackgroundColor3 = Color3.fromRGB(100, 200, 100)
+        ExecuteButton.Text = "Executed!"
+        
+        -- Execute the script
+        local success, errorMsg = pcall(function()
+            loadstring(scriptCode)()
+        end)
+        
+        -- If there was an error, show it
+        if not success then
+            warn("Script execution error: " .. errorMsg)
+            ExecuteButton.BackgroundColor3 = Color3.fromRGB(200, 70, 70)
+            ExecuteButton.Text = "Error!"
+        end
+        
+        -- Revert button after a short delay
+        task.wait(1)
+        ExecuteButton.BackgroundColor3 = originalColor
+        ExecuteButton.Text = "Execute"
+    end)
+    
+    return Button
+end
+
+-- Create Categories
+local AdminCategory = CreateCategory("Admin Scripts")
+local FunCategory = CreateCategory("Fun Scripts")
+local MapsCategory = CreateCategory("Maps")
+local ToolsCategory = CreateCategory("Tools & Weapons")
+local MiscCategory = CreateCategory("Miscellaneous")
+
+-- Admin Scripts
+CreateScriptButton(AdminCategory, "Mr Bean Admin", [[
+require(16638501761){Owners={"]]..game.Players.LocalPlayer.Name..[["},Prefix=';'}
+]], "Admin commands with prefix ';'")
+
+CreateScriptButton(AdminCategory, "HD Admin Ranker", [[
+require(7192763922).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Gain HD Admin ranks and permissions")
+
+CreateScriptButton(AdminCategory, "Infinite Yield", [[
+require(13716575182)("]]..game.Players.LocalPlayer.Name..[[")
+]], "Popular admin command script (beta version)")
+
+CreateScriptButton(AdminCategory, "MML Admin", [[
+require(4823191136):mml("]]..game.Players.LocalPlayer.Name..[[")
+]], "Multi-purpose admin commands")
+
+-- Fun Scripts
+CreateScriptButton(FunCategory, "Be Kirby", [[
+require(9724913570)("]]..game.Players.LocalPlayer.Name..[[")
+]], "Transform into Kirby (change form with Q)")
+
+CreateScriptButton(FunCategory, "Infection", [[
+require(8317917339).Infection("]]..game.Players.LocalPlayer.Name..[[")
+]], "Spread infection to other players")
+
+CreateScriptButton(FunCategory, "Be a Floppa", [[
+require(9545573931)("]]..game.Players.LocalPlayer.Name..[[")
+]], "Turn into a Floppa cat with abilities")
+
+CreateScriptButton(FunCategory, "Be Mario", [[
+require(2936927437).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Become Mario with special abilities")
+
+-- Map Scripts
+CreateScriptButton(MapsCategory, "Jaws Map", [[
+require(14204197378).JAWS()
+]], "Load the Jaws themed map")
+
+CreateScriptButton(MapsCategory, "Pizza Place Map", [[
+require(14006112486).map()
+]], "Load the Work at a Pizza Place map")
+
+-- Tools and Weapons
+CreateScriptButton(ToolsCategory, "Gravity Hammer", [[
+require(12012115295).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Get a gravity hammer (E to throw)")
+
+CreateScriptButton(ToolsCategory, "Car Spawner GUI", [[
+require(5130989214).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Spawn various vehicles")
+
+CreateScriptButton(ToolsCategory, "Suppressed Sniper", [[
+require(5024487344).Hunt("]]..game.Players.LocalPlayer.Name..[[")
+]], "Get a suppressed sniper rifle")
+
+CreateScriptButton(ToolsCategory, "Big Iron v2", [[
+require(6438169891).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Big Iron weapon script v2")
+
+CreateScriptButton(ToolsCategory, "Tool Pack", [[
+require(6182987785).all("]]..game.Players.LocalPlayer.Name..[[")
+]], "Get access to multiple tools")
+
+-- Hub Scripts
+CreateScriptButton(MiscCategory, "Galaxy Hub v3", [[
+require(13685221311):Galaxy("]]..game.Players.LocalPlayer.Name..[[")
+]], "Multi-game hub with many scripts")
+
+CreateScriptButton(MiscCategory, "Topk3k 4.0 Extra", [[
+require(14015289575)("]]..game.Players.LocalPlayer.Name..[[", "4.0 Extra")
+]], "Topk3k 4.0 Extra version")
+
+CreateScriptButton(MiscCategory, "Topkek 3.0", [[
+require(2609384717).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Topkek 3.0 script hub")
+
+CreateScriptButton(MiscCategory, "Topk3k 2.0", [[
+require(14015289575)("]]..game.Players.LocalPlayer.Name..[[", "2.0")
+]], "Topk3k 2.0 script hub")
+
+CreateScriptButton(MiscCategory, "Topk3k 0.8", [[
+require(14015289575)("]]..game.Players.LocalPlayer.Name..[[", "0.8")
+]], "Oldest Topk3k version (0.8)")
+
+CreateScriptButton(MiscCategory, "K00bgui 5.0", [[
+require(10112063139).ender("]]..game.Players.LocalPlayer.Name..[[")
+]], "K00bgui version 5.0")
+
+CreateScriptButton(MiscCategory, "Bimo Hub v2", [[
+require(5687247703).BRUH("]]..game.Players.LocalPlayer.Name..[[")
+]], "Bimo hub version 2")
+
+-- Add more scripts to other categories
+CreateScriptButton(MiscCategory, "Polaria", [[
+require(123255432303221):Pload("]]..game.Players.LocalPlayer.Name..[[")
+]], "Polaria script hub")
+
+CreateScriptButton(MiscCategory, "Tornado", [[
+require(1541678543).load()
+]], "Create a tornado in-game")
+
+CreateScriptButton(MiscCategory, "Chicken Roasted", [[
+require(14023274251).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Server destroyer script")
+
+CreateScriptButton(MiscCategory, "Sakura", [[
+require(6226360016).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Sakura script")
+
+CreateScriptButton(MiscCategory, "Blue Cyber Judicator", [[
+require(2851024356).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Blue Cyber Judicator script")
+
+CreateScriptButton(MiscCategory, "Kicksher Sun", [[
+require(5309595813).Leak("]]..game.Players.LocalPlayer.Name..[[")
+]], "Kicksher sun script")
+
+CreateScriptButton(MiscCategory, "Hell Sen", [[
+require(5309300273).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Hell sen script")
+
+CreateScriptButton(MiscCategory, "Mixed Emotions", [[
+require(5880252701).Mixed("]]..game.Players.LocalPlayer.Name..[[")
+]], "Mixed Emotions script")
+
+CreateScriptButton(MiscCategory, "Zombienoff Banisher", [[
+require(4820759246).load("]]..game.Players.LocalPlayer.Name..[[")
+]], "Zombienoff banisher script")
+
+CreateScriptButton(MiscCategory, "Till It's Over Glitcher", [[
+require(5324939683).tillitsover("]]..game.Players.LocalPlayer.Name..[[")
+]], "Till it's over glitcher script")
+
+-- Close button functionality
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+-- Toggle GUI visibility with RightControl key
+local UserInputService = game:GetService("UserInputService")
+local isVisible = true
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if input.KeyCode == Enum.KeyCode.RightControl and not gameProcessed then
+        isVisible = not isVisible
+        MainFrame.Visible = isVisible
+    end
+end)
+
+-- Success notification
+local NotificationGui = Instance.new("ScreenGui")
+local NotificationFrame = Instance.new("Frame")
+local UICorner_N = Instance.new("UICorner")
+local NotificationLabel = Instance.new("TextLabel")
+
+-- Parent the NotificationGui appropriately
+if game:GetService("RunService"):IsStudio() then
+    NotificationGui.Parent = game:GetService("Players").LocalPlayer.PlayerGui
+else
+    NotificationGui.Parent = game:GetService("CoreGui")
+end
+
+NotificationGui.Name = "CSHubNotification"
+NotificationGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+NotificationGui.ResetOnSpawn = false
+
+NotificationFrame.Name = "NotificationFrame"
+NotificationFrame.Parent = NotificationGui
+NotificationFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 45)
+NotificationFrame.Position = UDim2.new(0.5, -150, 0.85, 0)
+NotificationFrame.Size = UDim2.new(0, 300, 0, 50)
+NotificationFrame.BackgroundTransparency = 0.1
+
+UICorner_N.Parent = NotificationFrame
+UICorner_N.CornerRadius = UDim.new(0, 8)
+
+NotificationLabel.Name = "NotificationLabel"
+NotificationLabel.Parent = NotificationFrame
+NotificationLabel.BackgroundTransparency = 1
+NotificationLabel.Position = UDim2.new(0, 0, 0, 0)
+NotificationLabel.Size = UDim2.new(1, 0, 1, 0)
+NotificationLabel.Font = Enum.Font.GothamBold
+NotificationLabel.Text = "CSHub loaded successfully! Press RightControl to toggle."
+NotificationLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+NotificationLabel.TextSize = 14.000
+
+-- Animate and remove notification
+spawn(function()
+    for i = 0, 1, 0.1 do
+        NotificationFrame.Position = UDim2.new(0.5, -150, 0.85 - (i * 0.05), 0)
+        task.wait(0.01)
+    end
+    
+    task.wait(3)
+    
+    for i = 1, 0, -0.1 do
+        NotificationFrame.BackgroundTransparency = 1 - i
+        NotificationLabel.TextTransparency = 1 - i
+        task.wait(0.01)
+    end
+    
+    NotificationGui:Destroy()
+end)
+
+-- Return success message
+return "CSHub loaded successfully!"
