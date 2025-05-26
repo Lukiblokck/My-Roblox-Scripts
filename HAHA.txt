@@ -1,0 +1,61 @@
+char = game.Players.LocalPlayer.Character
+local BODY = {}
+LeftArm = char["Left Arm"]
+RightLeg = char["Right Leg"]
+LeftLeg = char["Left Leg"]
+for _, c in pairs(char:GetDescendants()) do
+    if c:IsA("BasePart") and c.Name ~= "Handle" then
+        if c ~= char.HumanoidRootPart and c ~= char.Torso and c ~= char.Head and c ~= char["Right Arm"] and c ~= LeftArm and c ~= RightLeg and c ~= LeftLeg then
+            c.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0, 0, 0)
+        end
+        table.insert(BODY,{c,c.Parent,c.Material,c.Color,c.Transparency})
+    elseif c:IsA("JointInstance") then
+        table.insert(BODY,{c,c.Parent,nil,nil,nil})
+    end
+end
+for e = 1, #BODY do
+    if BODY[e] ~= nil then
+        local STUFF = BODY[e]
+        local PART = STUFF[1]
+        local PARENT = STUFF[2]
+        local MATERIAL = STUFF[3]
+        local TRANSPARENCY = STUFF[5]
+        if PART.ClassName == "Part" and PART ~= char.HumanoidRootPart then
+            PART.Material = MATERIAL
+            PART.Transparency = TRANSPARENCY
+        end
+        PART.AncestryChanged:Connect(function()
+            PART.Parent = PARENT
+        end)
+    end
+end
+RootPart = char.HumanoidRootPart
+function refit()
+   char.Parent = workspace
+    for e = 1, #BODY do
+        if BODY[e] ~= nil then
+            local STUFF = BODY[e]
+            local PART = STUFF[1]
+            local PARENT = STUFF[2]
+            local MATERIAL = STUFF[3]
+            local TRANSPARENCY = STUFF[5]
+            if PART.ClassName == "Part" and PART ~= RootPart then
+                PART.Material = MATERIAL
+                PART.Transparency = TRANSPARENCY
+            end
+            if PART.Parent ~= PARENT then
+                char:FindFirstChildOfClass("Humanoid"):remove()
+                PART.Parent = PARENT
+                local Humanoid = Instance.new("Humanoid",char)
+            end
+        end
+    end
+end
+char.Humanoid.Name = "Immortal"
+char:FindFirstChildOfClass("Humanoid").Died:connect(function()
+	refit() -- To prevent the player from dieing.
+end)
+while true do
+wait(0.2)
+refit()
+end
