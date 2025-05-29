@@ -1,0 +1,88 @@
+--[[
+ C00KKIDD Exploit Synth Server-Side Executor
+ Synthesizes and combines techniques from various server-side exploits.
+ ]]
+ 
+
+ -- Configurable settings (MUST be set properly)
+ local ADMIN_PASSWORD = "MySecurePassword" -- CHANGE THIS! VERY IMPORTANT!
+ local ADMIN_USER_ID = 1234567890 -- Your user ID.  Used for initial admin assignment.
+ 
+
+ -- Utility functions
+ local function isAdmin(player)
+  -- Replace this with your game's actual admin check
+  return player.UserId == ADMIN_USER_ID
+ end
+ 
+
+ local function logMessage(message)
+  print("[Server Executor]: " .. message)
+  -- You could also log to a file or external service here
+ end
+ 
+
+ -- Command processing
+ local function processCommand(player, commandString)
+  if not isAdmin(player) then
+  logMessage("Unauthorized access attempt from " .. player.Name)
+  return
+  end
+ 
+
+  local env = getfenv(0) -- Get the current environment
+  local func, err = loadstring(commandString)
+  if func then
+  setfenv(func, env) -- Set the environment
+  xpcall(func, function(err) -- Execute the code with error handling.
+  logMessage("Error executing command: " .. tostring(err))
+  player:Kick("Error in serverside script") -- prevents server crashes
+  end)
+  else
+  logMessage("Error loading command: " .. tostring(err))
+  end
+ end
+ 
+
+ -- Chat command hook (replace with your game's chat system hook)
+ game.Players.PlayerAdded:Connect(function(player)
+  player.Chatted:Connect(function(message)
+  if string.sub(message, 1, 1) == "/" then -- Command prefix
+  local command = string.sub(message, 2)
+  processCommand(player, command)
+  end
+  end)
+ end)
+ 
+
+ -- Admin login system (optional, but recommended)
+ local function authenticateAdmin(player, password)
+  if password == ADMIN_PASSWORD then
+  -- Grant admin privileges (implementation depends on your game's admin system)
+  logMessage(player.Name .. " has logged in as admin.")
+  return true
+  else
+  logMessage("Failed admin login attempt from " .. player.Name)
+  return false
+  end
+ end
+ 
+
+ -- Example usage:  Implement a chat command for admin authentication
+ game.Players.PlayerAdded:Connect(function(player)
+  player.Chatted:Connect(function(message)
+  if string.match(message, "^!admin ") then
+  local password = string.sub(message, 8)
+  if authenticateAdmin(player, password) then
+  -- Admin privileges granted.  Do whatever your game needs to do.
+  -- You might set a player's admin group, etc.
+  end
+  end
+  end)
+ end)
+ 
+
+ logMessage("Server executor initialized.")
+ 
+
+ 
