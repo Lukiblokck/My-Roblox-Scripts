@@ -1,129 +1,80 @@
--------- OMG HAX
+-- [Programmed by abrah_m]
 
-r = game:service("RunService")
+local PlayersService = game:GetService("Players");
+local DebrisService = game:GetService("Debris");
 
+local Tool = script.Parent
 
-Tool = script.Parent
-hammer = Tool.Handle
+local Debounce = false;
+local CanDamage = false;
 
-local shockRing = Instance.new("Part")
-shockRing.formFactor = 2
-shockRing.Size = Vector3.new(1, 0.4, 1)
-shockRing.Anchored = true
-shockRing.Locked = true
-shockRing.CanCollide = false
-shockRing.archivable = false
-shockRing.TopSurface = 0
-shockRing.BottomSurface = 0
-shockRing.Transparency = 1
-local decal = Instance.new("Decal")
-decal.Face = 1
-decal.Texture = "http://www.roblox.com/asset/?version=1&id=1280730"
-decal.Parent = shockRing
+local Player
+local Character
 
-local bottomDecal = decal:Clone()
-bottomDecal.Face = 4
-bottomDecal.Parent = shockRing
+local SwingTrack
 
+Tool.Equipped:Connect(function()
+	Character = Tool.Parent
+	Player = PlayersService:GetPlayerFromCharacter(Character)
+	
+	SwingTrack = Character.Humanoid.Animator:LoadAnimation(script.Swing)
+end)
 
-
-function doDamage(hit)
-	local humanoid = hit.Parent:findFirstChild("Humanoid")
-	local vCharacter = Tool.Parent
-	local vPlayer = game.Players:playerFromCharacter(vCharacter)
-	local hum = vCharacter:findFirstChild("Humanoid") -- non-nil if tool held by a character
-	if humanoid~=nil and humanoid ~= hum and hum ~= nil then
-		tagHumanoid(humanoid, vPlayer)
-		humanoid:TakeDamage(humanoid.MaxHealth)
-		if humanoid.Health <= 0 then
-			local c = hit.CFrame
-			hit.CFrame = CFrame.new(hit.Position)
-			hit.CFrame = c
-		end
-		delay(1, function() untagHumanoid(humanoid) end)
-	else
-		local c = hit.CFrame	hit:BreakJoints()	hit.CFrame = CFrame.new(hit.Position)	hit.CFrame = c
-	end
-end
-
-
-function tagHumanoid(humanoid, player)
-	local creator_tag = Instance.new("ObjectValue")
-	creator_tag.Value = player
-	creator_tag.Name = "creator"
-	creator_tag.Parent = humanoid
-end
-
-function untagHumanoid(humanoid)
-	if humanoid ~= nil then
-		local tag = humanoid:findFirstChild("creator")
-		if tag ~= nil then
-			tag.Parent = nil
-		end
-	end
-end
-
-function blow(obj, pos, notme)
-	if (obj ~= notme) then
-		if (obj.className == "Part") or (obj.className == "Seat") then
-			if (not obj.Anchored) and (((pos - obj.Position) * Vector3.new(1, 0, 1)).magnitude < 96) and (pos.y <= obj.Position.y + 8) and (pos.y >= obj.Position.y - 8) then
-				delay((pos - obj.Position).magnitude / 96, function()	doDamage(obj)	obj.Velocity = ((obj.Position - pos).unit + Vector3.new(0, 0.5, 0)) * 96 + obj.Velocity	obj.RotVelocity = obj.RotVelocity + Vector3.new(obj.Position.z - pos.z, 0, pos.x - obj.Position.x).unit * 40	end)
+Tool.Activated:Connect(function()
+	if not Debounce then
+		Debounce = true;
+		
+		CanDamage = true;
+		
+		SwingTrack:Play()
+		
+		Tool.Handle.Swing:Play()
+		
+		Tool.Handle.Touched:Connect(function(hit)
+			if hit.Parent:FindFirstChild("Humanoid") and hit.Parent:FindFirstChild("HumanoidRootPart") and CanDamage then
+				script.Parent.Handle.Ban:Play()
+				
+				local Explosion = Instance.new("Explosion", workspace)
+				Explosion.BlastRadius = 10;
+				Explosion.BlastPressure = 0;
+				Explosion.Position = hit.Parent:FindFirstChild("HumanoidRootPart").Position
+				
+				hit.Parent:FindFirstChild("Humanoid").Health = 0;
+				
+				for i, obj in pairs(hit.Parent:GetDescendants()) do
+					if obj:IsA("Motor6D") and obj.Parent.Name ~= "HumanoidRootPart" then
+						local Socket = Instance.new("BallSocketConstraint", obj.Parent)
+						local a1, a2 = Instance.new("Attachment", obj.Part0), Instance.new("Attachment", obj.Part1)
+						
+						Socket.Attachment0 = a1
+						Socket.Attachment1 = a2
+						
+						a1.CFrame = obj.C0
+						a2.CFrame = obj.C1
+						
+						Socket.LimitsEnabled = true;
+						Socket.TwistLimitsEnabled = true;
+						
+						obj:Destroy()
+					end
+				end
+				
+				local BodyVelocity = Instance.new("BodyVelocity", hit.Parent:FindFirstChild("HumanoidRootPart"))
+				BodyVelocity.MaxForce = Vector3.new(1, 1, 1) * 10000000;
+				BodyVelocity.Velocity = Character.HumanoidRootPart.CFrame.LookVector * 1000;
+				
+				DebrisService:AddItem(BodyVelocity, 0.1)
+				
+				CanDamage = false;
 			end
-		elseif (obj.className == "Model") or (obj.className == "Hat") or (obj.className == "Tool") or (obj == workspace) then
-			local list = obj:GetChildren()
-			for x = 1, #list do
-				blow(list[x], pos, notme)
-			end
-		end
+		end)
+		
+		SwingTrack.Stopped:Wait()
+		
+		CanDamage = false;
+		
+		wait()
+		
+		Debounce = false;
 	end
-end
-
-function attack()
-	damage = slash_damage
-	local anim = Instance.new("StringValue")
-	anim.Name = "toolanim"
-	anim.Value = "Slash"
-	anim.Parent = Tool
-	wait(0.2)
-
-	print("Blasting!")
-
-	local pos = hammer.CFrame * (Vector3.new(0, 1.4, 0) * hammer.Mesh.Scale)
-
-	blow(workspace, pos, Tool.Parent)
-
-	shockRing.CFrame = CFrame.new(pos)
-	for x = 1, 29 do
-		delay(x / 30, function()	shockRing.Parent = nil	shockRing.Size = Vector3.new(0, 0.4, 0) + Vector3.new(6.4, 0, 6.4) * x	shockRing.Parent = Tool	end)
-	end
-	delay(1, function() shockRing.Parent = nil end)
-end
-
-
-Tool.Enabled = true
-function onActivated()
-
-	if not Tool.Enabled then
-		return
-	end
-
-	Tool.Enabled = false
-
-	local character = Tool.Parent;
-	local humanoid = character.Humanoid
-	if humanoid == nil then
-		print("Humanoid not found")
-		return 
-	end
-
-	hammer.Boom:Play()
-	attack()
-
-	wait(0)
-
-	Tool.Enabled = true
-end
-
-
-script.Parent.Activated:connect(onActivated)
---script.Parent.Equipped:connect(onEquipped)
+end)
