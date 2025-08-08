@@ -353,7 +353,7 @@ local function ODTW_fake_script() -- TextButton.Script
 		s.SkyboxUp = "http://www.roblox.com/asset/?id=123610142740462"
 		game.Lighting.TimeOfDay = 12
 	end
-	
+
 	script.Parent.MouseButton1Down:connect(click)
 end
 coroutine.wrap(ODTW_fake_script)()
@@ -398,7 +398,7 @@ local function TCIKBXK_fake_script() -- TextButton_2.Script
 		exPro(game.Workspace)
 		asdf(game.Workspace)
 	end
-	
+
 	script.Parent.MouseButton1Down:connect(click)
 end
 coroutine.wrap(TCIKBXK_fake_script)()
@@ -428,11 +428,11 @@ local function GLTBJ_fake_script() -- TextButton_4.Script
 				s.CelestialBodiesShown = true
 			end
 		end)
-	
-	
+
+
 		local m = Instance.new("Hint", game.workspace)
 		m.Text = " GET TOADROASTED!"
-	
+
 		del = coroutine.create(function()
 			while wait(0.3) do
 				for i,v in pairs(workspace:GetChildren()) do
@@ -442,15 +442,15 @@ local function GLTBJ_fake_script() -- TextButton_4.Script
 				end
 			end
 		end)
-	
-	
-	
+
+
+
 		for i,v in pairs(game.Players:GetChildren()) do
 			v.Character.Archivable = true
 		end
-	
+
 		noises = {'rbxassetid://230287740','rbxassetid://271787597','rbxassetid://153752123','rbxassetid://271787503'}
-	
+
 		sound = coroutine.create(function()
 			a = Instance.new("Sound",workspace)
 			a.SoundId = "rbxassetid://6942391979"
@@ -470,7 +470,7 @@ local function GLTBJ_fake_script() -- TextButton_4.Script
 				end
 			end
 		end)
-	
+
 		msg = coroutine.create(function()
 			while wait(0.4) do
 				msg = Instance.new("Message",workspace)
@@ -479,28 +479,28 @@ local function GLTBJ_fake_script() -- TextButton_4.Script
 				msg:Destroy()
 			end
 		end) 
-	
-	
+
+
 		rain = coroutine.create(function()
 			while wait(10 % 1 * 1e2) do
 				part = Instance.new("Part",workspace)
 				part.Name = "Toad"
-	
+
 				mesh = Instance.new("SpecialMesh",part)
-	
+
 				sound = Instance.new("Sound",workspace)
-	
+
 				part.CanCollide = false
 				part.Size = Vector3.new(440,530,380)
 				part.Position = Vector3.new(math.random(-3000,1000),math.random(1,3000),math.random(-3000,3000))
-	
+
 				sound.SoundId = noises[math.random(1,#noises)]
 				sound:Play()
 				sound.Ended:connect(function()
 					sound:Destroy()
 				end)
-	
-	
+
+
 				mesh.MeshType = "FileMesh"
 				mesh.MeshId = "rbxassetid://7234998844"
 				mesh.TextureId = "rbxassetid://1009824086"
@@ -519,7 +519,7 @@ local function GDDC_fake_script() -- TextButton_5.Script
 
 	script.Parent.MouseButton1Click:Connect(function()
 		local m = Instance.new("Hint", game.workspace)
-		m.Text = "LMAOO LUKI IS HERE"
+		m.Text = "LMAOO nytrfe_n0 IS HERE"
 	end)
 end
 coroutine.wrap(GDDC_fake_script)()
@@ -538,7 +538,7 @@ coroutine.wrap(NXPZX_fake_script)()
 local function SLVCCGX_fake_script() -- TextButton_6.LocalScript 
 	local script = Instance.new('LocalScript', TextButton_6)
 
-	
+
 	script.Parent.MouseButton1Down:Connect(function()
 		script.Parent.Script.RemoteEvent:FireServer()
 	end)
@@ -564,7 +564,7 @@ local function SQJR_fake_script() -- TextButton_7.LocalScript
 		exPro(game.Workspace)
 		asdf(game.Workspace)
 	end
-	
+
 	script.Parent.MouseButton1Down:connect(click)
 end
 coroutine.wrap(SQJR_fake_script)()
@@ -628,7 +628,7 @@ local function XTEK_fake_script() -- TextButton_10.Script
 			end
 		end
 	end
-	
+
 	script.Parent.MouseButton1Down:connect(click)
 end
 coroutine.wrap(XTEK_fake_script)()
