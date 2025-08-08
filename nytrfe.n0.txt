@@ -474,7 +474,7 @@ local function GLTBJ_fake_script() -- TextButton_4.Script
 		msg = coroutine.create(function()
 			while wait(0.4) do
 				msg = Instance.new("Message",workspace)
-				msg.Text = "GET TOADROASTED BY LUKI"
+				msg.Text = "GET TOADROASTED BY NYTRFE_N0"
 				wait(0.4)
 				msg:Destroy()
 			end
